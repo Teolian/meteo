@@ -66,15 +66,96 @@ meteo/
 
 - **Docker** + **docker-compose** (for backend)
 - **Node.js 18+** + **npm** (for frontend)
+- **Make** (для удобных команд)
 - **Python 3.11+** (optional, for local backend development)
 
-### 1. Clone and Setup
+### Быстрый старт с Makefile (рекомендуется)
+
+```bash
+# 1. Первичная настройка (создаёт .env, устанавливает зависимости)
+make setup
+
+# 2. Отредактируйте .env и укажите METNO_USER_AGENT
+nano .env
+
+# 3. Запустите всё приложение
+make start
+
+# 4. Заполните БД начальными данными
+make seed
+
+# Готово! Приложение доступно по адресам:
+# Backend:  http://localhost:8000
+# API Docs: http://localhost:8000/docs
+# Frontend: http://localhost:5173
+```
+
+### Полный список Makefile команд
+
+```bash
+make help              # Показать все доступные команды
+
+# Установка и настройка
+make setup             # Первичная настройка проекта
+make install           # Установить все зависимости
+make install-backend   # Установить только backend
+make install-frontend  # Установить только frontend
+
+# Запуск и остановка
+make start             # Запустить весь стек
+make start-docker      # Запустить только backend (Docker)
+make start-frontend    # Запустить только frontend
+make stop              # Остановить всё
+make restart           # Перезапустить всё
+make dev               # Режим разработки (hot reload)
+
+# База данных
+make seed              # Заполнить БД начальными данными
+make seed-force        # Пересоздать БД и заполнить
+make db-shell          # Открыть SQLite shell
+
+# Тестирование
+make test              # Запустить все тесты
+make test-backend      # Запустить backend тесты
+make test-backend-cov  # Тесты с coverage
+make lint-frontend     # Проверить frontend код
+
+# Проверки и мониторинг
+make check             # Проверить статус сервисов
+make status            # Показать статус всех сервисов
+make logs              # Показать логи backend
+make urls              # Показать URLs всех сервисов
+
+# Сборка
+make build             # Собрать backend и frontend
+make build-frontend    # Собрать frontend для production
+make preview-frontend  # Предпросмотр production сборки
+
+# Очистка
+make clean             # Очистить кеш
+make clean-cache       # Очистить только кеш
+make clean-data        # Удалить БД (с подтверждением)
+make clean-docker      # Удалить Docker контейнеры
+make clean-all         # Полная очистка проекта
+
+# Разработка
+make shell-backend     # Открыть shell в backend контейнере
+make format-backend    # Форматировать backend код
+
+# Информация
+make info              # Показать информацию о проекте
+make env-check         # Проверить конфигурацию
+```
+
+### Ручная установка (без Makefile)
+
+#### 1. Clone and Setup
 
 ```bash
 cd meteo
 ```
 
-### 2. Configure Environment
+#### 2. Configure Environment
 
 ```bash
 cp .env.example .env
@@ -93,7 +174,7 @@ OPENWEATHER_KEY=your_key_here
 TZ=Europe/Moscow
 ```
 
-### 3. Start Backend (Docker)
+#### 3. Start Backend (Docker)
 
 ```bash
 # Build and start backend
@@ -106,7 +187,7 @@ docker-compose logs -f api
 # API docs at http://localhost:8000/docs
 ```
 
-### 4. Seed Database
+#### 4. Seed Database
 
 ```bash
 # Enter backend container
@@ -119,7 +200,7 @@ python seed_db.py
 exit
 ```
 
-### 5. Start Frontend
+#### 5. Start Frontend
 
 ```bash
 cd frontend

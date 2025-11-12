@@ -74,6 +74,10 @@ frontend/dev-dist/
 logs/
 *.log
 
+# Backups
+backups/
+*.tar.gz
+
 # Docker
 *.pid
 *.seed
